@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  mysql_service:
+    container_name: mysql_service
+    restart: always
+    build: ./mysql
+    ports:
+      - 6603:3306
+  data_crawling:
+    container_name: data_crawling
+    build: ./data_crawling
+    command: sh -c "sleep 10s ;python data_crawling.py"
+    ports:
+      - 8001:9001
+    depends_on:
+      - mysql_service
+  tiki_api:
+    container_name: tiki_api
+    build: ./mysql_api
+    ports:
+      - 8002:9002
+    depends_on:
+      - mysql_service    
+  home_page:
+    container_name: home_page
+    build: ./homepage
+    ports:
+      - 8080:80
