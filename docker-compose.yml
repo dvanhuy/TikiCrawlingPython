@@ -25,4 +25,9 @@ services:
     container_name: home_page
     build: ./homepage
     ports:
-      - 8080:80
+      - 8003:80
+  auto_update:
+    container_name: auto_update
+    build: ./auto_update
+    ports:
+      - 8004:9004    
