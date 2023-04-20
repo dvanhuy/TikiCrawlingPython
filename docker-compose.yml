@@ -6,9 +6,9 @@ services:
     build: ./mysql
     ports:
       - 6603:3306
-  auto_update:
-    container_name: auto_update
-    build: ./auto_update
+  data_crawl:
+    container_name: data_crawl
+    build: ./data_crawl
     ports:
       - 8001:9001
     depends_on:
