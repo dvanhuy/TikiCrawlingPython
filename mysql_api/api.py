@@ -1,5 +1,6 @@
 import mysql.connector
 from fastapi import FastAPI
+import pandas as pd
 import json
 import requests
 
@@ -125,3 +126,25 @@ def updatemanual(id:str,name_lap:str,brand_name:str,price:str,original_price:str
     mysql4.close()
     return {"result":result}
     
+@app.get("/stats/")
+def filterdata():
+    mysql5 = mysql.connector.connect(
+    host="mysql_service",
+    user="root",
+    password="123",
+    port='3306',
+    database="pythonquanlylaptop")
+    mycursor = mysql5.cursor()
+    sql = "SELECT * FROM LapTop"
+    mycursor.execute(sql)
+    myresult = mycursor.fetchall()
+    df = pd.DataFrame(myresult)
+    print(type(df[2].value_counts().to_json()))
+    result = {
+        "Số dòng dữ liệu":df.shape[0],
+        "Số cột":df.shape[1],
+        "Thống kê dòng máy":json.loads(df[2].value_counts().to_json())
+    }
+    mycursor.close()
+    mysql5.close()
+    return result
