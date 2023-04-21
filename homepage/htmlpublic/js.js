@@ -37,28 +37,26 @@ document.getElementById("button_tim").onclick = ()=>{
     const loai = document.querySelector("input#loai").value
     const giamin = document.querySelector("input#giamin").value
     const giamax = document.querySelector("input#giamax").value
-    console.log(ten);
-    console.log(loai);
-    console.log(giamin);
-    console.log(giamax);
     if (ten=="" && loai=="" &&  giamin=="" &&  giamax=="" ){
         alert("Chưa nhập xong")
         return
     }
     let link = "http://localhost:8002/filterdata/?"
-    // if (ten!=""){
-    //     link+="name_lap="+ten
-    // }
-    // if (loai!=""){
-    //     link+="name_lap="+ten
-    // }
-    // if (giamin!=""){
-    //     link+="name_lap="+ten
-    // }
-    // if (giamax!=""){
-    //     link+="name_lap="+ten
-    // }
-    console.log(link);
+    if (ten!=""){
+        link+="name_lap="+ten+"&"
+    }
+    if (loai!=""){
+        link+="brand_name="+loai+"&"
+    }
+    if (giamin!=""){
+        link+="price_min="+giamin+"&"
+    }
+    if (giamax!=""){
+        link+="price_max="+giamax+"&"
+    }
+    link=link.substring(0,link.length-1)
+    document.querySelector('#tabledata > tbody').innerHTML("")
+    logJSONData(link)
 }
 
 
