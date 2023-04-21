@@ -3,8 +3,26 @@ from fastapi import FastAPI
 import pandas as pd
 import json
 import requests
+from fastapi.middleware.cors import CORSMiddleware
+origins = [
+    "http://localhost",
+    "http://localhost:8003",
+    "http://localhost:9003",
+    "http://tiki_api",
+    "http://tiki_api:8003",
+    "http://tiki_api:9003"
+]
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 @app.get("/datalist/")
 def datalist():
     mysql1 = mysql.connector.connect(
@@ -23,7 +41,7 @@ def datalist():
     return json.loads(temp)
 
 @app.get("/filterdata/")
-def filterdata(name : str= None ,brand_name: str= None ,price_min : str = None ,price_max : str = None ,original_price_min: str = None ,original_price_max:str= None ):
+def filterdata(iddt : str=None,name_lap : str= None ,brand_name: str= None ,price_min : str = None ,price_max : str = None ,original_price_min: str = None ,original_price_max:str= None ):
     mysql2 = mysql.connector.connect(
     host="mysql_service",
     user="root",
@@ -32,8 +50,10 @@ def filterdata(name : str= None ,brand_name: str= None ,price_min : str = None ,
     database="pythonquanlylaptop")
     mycursor = mysql2.cursor(dictionary=True)
     sql = "SELECT * FROM LapTop WHERE true "
-    if name is not None:
-        sql += " and (name like '%"+name+"%')"
+    if iddt is not None:
+        sql += " and (id like '%"+iddt+"%')"
+    if name_lap is not None:
+        sql += " and (name_lap like '%"+name_lap+"%')"
     if brand_name is not None:
         sql += " and (brand_name like '%"+brand_name+"%')"
     if price_min is not None:
