@@ -55,7 +55,7 @@ document.getElementById("button_tim").onclick = ()=>{
         link+="price_max="+giamax+"&"
     }
     link=link.substring(0,link.length-1)
-    document.querySelector('#tabledata > tbody').innerHTML("")
+    document.querySelector('#tabledata > tbody').innerHTML=""
     logJSONData(link)
 }
 
